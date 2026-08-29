@@ -108,12 +108,16 @@ export function paidAmount(debt: Debt): number {
   return debt.payments.reduce((sum, p) => sum + p.amount, 0);
 }
 
+/** Долг, отмеченный оплаченным вручную, всегда считается закрытым — даже если
+ * сумма платежей в истории меньше суммы долга (например, был прощён или
+ * закрыт наличными без записи платежа). */
 export function remainingAmount(debt: Debt): number {
+  if (debt.closed) return 0;
   return Math.max(0, debt.amount - paidAmount(debt));
 }
 
 export function progress(debt: Debt): number {
-  if (debt.amount <= 0) return 1;
+  if (debt.closed || debt.amount <= 0) return 1;
   return Math.min(1, paidAmount(debt) / debt.amount);
 }
 

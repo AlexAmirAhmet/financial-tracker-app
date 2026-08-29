@@ -19,7 +19,14 @@ interface TabButtonProps extends Omit<PressableProps, 'style'> {
   style?: StyleProp<ViewStyle>;
 }
 
-/** Кнопка нижней навигации: иконка + подпись, бирюзовая при активном состоянии. */
+/**
+ * Кнопка нижней навигации: иконка + подпись, бирюзовая при активном состоянии.
+ *
+ * `TabTrigger asChild` мёржит на корневой элемент свой служебный стиль
+ * (flexDirection: 'row', justifyContent: 'space-between'), который иначе
+ * перебивает раскладку иконки и подписи. Поэтому сама раскладка вынесена во
+ * внутренний View на 100% ширины — снаружи мёржащийся стиль ни на что не влияет.
+ */
 export const TabButton = forwardRef<View, TabButtonProps>(function TabButton(
   { icon, label, isFocused, style, ...pressableProps },
   ref,
@@ -28,8 +35,10 @@ export const TabButton = forwardRef<View, TabButtonProps>(function TabButton(
 
   return (
     <Pressable ref={ref} style={[styles.button, style]} {...pressableProps}>
-      <Ionicons name={icon} size={22} color={color} />
-      <Text style={[styles.label, { color }]}>{label}</Text>
+      <View style={styles.inner}>
+        <Ionicons name={icon} size={22} color={color} />
+        <Text style={[styles.label, { color }]}>{label}</Text>
+      </View>
     </Pressable>
   );
 });
@@ -37,10 +46,14 @@ export const TabButton = forwardRef<View, TabButtonProps>(function TabButton(
 const styles = StyleSheet.create({
   button: {
     flex: 1,
+    paddingVertical: 8,
+  },
+  inner: {
+    width: '100%',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 4,
-    paddingVertical: 8,
   },
   label: {
     fontFamily: Fonts.bodyMedium,

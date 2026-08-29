@@ -11,28 +11,20 @@ export function formatCurrency(amount: number, currency = '₽'): string {
   return `${sign}${grouped} ${currency}`;
 }
 
-/** "10 янв." */
+/** "10 янв." — ru-локаль dayjs уже включает точку в сокращении месяца, где нужно. */
 export function formatDateShort(iso: string): string {
-  return dayjs(iso).format('D MMM.');
+  return dayjs(iso).format('D MMM');
 }
 
-/** "через 7 дн." / "сегодня" / "просрочено на 3 дн." */
+/** "через 7 дн." / "сегодня" / "просрочено на 3 дн." — аббревиатура "дн." не склоняется. */
 export function formatDueIn(iso: string): string {
   const now = dayjs().startOf('day');
   const due = dayjs(iso).startOf('day');
   const diff = due.diff(now, 'day');
 
   if (diff === 0) return 'сегодня';
-  if (diff > 0) return `через ${diff} ${pluralDays(diff)}`;
-  return `просрочено на ${Math.abs(diff)} ${pluralDays(Math.abs(diff))}`;
-}
-
-function pluralDays(n: number): string {
-  const mod10 = n % 10;
-  const mod100 = n % 100;
-  if (mod10 === 1 && mod100 !== 11) return 'дн.';
-  if ([2, 3, 4].includes(mod10) && ![12, 13, 14].includes(mod100)) return 'дн.';
-  return 'дн.';
+  if (diff > 0) return `через ${diff} дн.`;
+  return `просрочено на ${Math.abs(diff)} дн.`;
 }
 
 /** Инициалы для аватара: "Ирина Соколова" -> "ИС" */

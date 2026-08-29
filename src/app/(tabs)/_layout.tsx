@@ -26,7 +26,11 @@ export default function TabsLayout() {
           <TabButton icon="reader-outline" label="Долги" />
         </TabTrigger>
 
-        <Pressable style={styles.addButton} onPress={() => router.push('/add-debt')}>
+        <Pressable
+          style={styles.addButton}
+          onPress={() => router.push('/add-debt')}
+          accessibilityRole="button"
+          accessibilityLabel="Добавить долг">
           <View style={styles.addCircle}>
             <Ionicons name="add" size={26} color={Colors.white} />
           </View>
