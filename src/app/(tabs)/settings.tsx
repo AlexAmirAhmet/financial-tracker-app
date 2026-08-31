@@ -1,14 +1,13 @@
 import { Ionicons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 import { useState } from 'react';
-import { Pressable, ScrollView, Share, StyleSheet, Switch, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Pressable, Share, StyleSheet, Switch, Text, View } from 'react-native';
 
 import { FormField } from '@/components/FormField';
 import { PersonAvatar } from '@/components/PersonAvatar';
 import { SoftCard } from '@/components/SoftCard';
+import { TabScreen } from '@/components/TabScreen';
 import { Colors, Fonts, Radii, Spacing } from '@/constants/theme';
-import { useTabBarInset } from '@/hooks/useTabBarInset';
 import { useDebtStore } from '@/store/useDebtStore';
 
 const CURRENCIES = ['₽', '$', '€', '₸'];
@@ -23,7 +22,6 @@ export default function SettingsScreen() {
   const debts = useDebtStore((s) => s.debts);
 
   const [nameDraft, setNameDraft] = useState(userName);
-  const tabBarInset = useTabBarInset();
 
   const handleExport = async () => {
     const payload = JSON.stringify({ exportedAt: new Date().toISOString(), debts }, null, 2);
@@ -35,87 +33,77 @@ export default function SettingsScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={['top']}>
-      <ScrollView
-        contentContainerStyle={[styles.content, { paddingBottom: tabBarInset }]}
-        showsVerticalScrollIndicator={false}>
-        <Text style={styles.title}>Настройки</Text>
+    <TabScreen contentContainerStyle={styles.content}>
+      <Text style={styles.title}>Настройки</Text>
 
-        <SoftCard style={styles.profileCard}>
-          <PersonAvatar name={nameDraft || userName} type="owedToMe" size={56} />
-          <View style={styles.profileField}>
-            <FormField
-              label="Ваше имя"
-              value={nameDraft}
-              onChangeText={setNameDraft}
-              onBlur={() => setUserName(nameDraft.trim() || userName)}
-              placeholder="Имя"
-            />
-          </View>
-        </SoftCard>
+      <SoftCard style={styles.profileCard}>
+        <PersonAvatar name={nameDraft || userName} type="owedToMe" size={56} />
+        <View style={styles.profileField}>
+          <FormField
+            label="Ваше имя"
+            value={nameDraft}
+            onChangeText={setNameDraft}
+            onBlur={() => setUserName(nameDraft.trim() || userName)}
+            placeholder="Имя"
+          />
+        </View>
+      </SoftCard>
 
-        <Text style={styles.sectionTitle}>ВАЛЮТА</Text>
-        <SoftCard style={styles.currencyCard}>
-          <View style={styles.currencyRow}>
-            {CURRENCIES.map((c) => {
-              const selected = c === currency;
-              return (
-                <Pressable
-                  key={c}
-                  onPress={() => setCurrency(c)}
-                  style={[styles.currencyChip, selected && styles.currencyChipSelected]}>
-                  <Text style={[styles.currencyChipText, selected && styles.currencyChipTextSelected]}>
-                    {c}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </View>
-        </SoftCard>
+      <Text style={styles.sectionTitle}>ВАЛЮТА</Text>
+      <SoftCard style={styles.currencyCard}>
+        <View style={styles.currencyRow}>
+          {CURRENCIES.map((c) => {
+            const selected = c === currency;
+            return (
+              <Pressable
+                key={c}
+                onPress={() => setCurrency(c)}
+                style={[styles.currencyChip, selected && styles.currencyChipSelected]}>
+                <Text style={[styles.currencyChipText, selected && styles.currencyChipTextSelected]}>
+                  {c}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
+      </SoftCard>
 
-        <Text style={styles.sectionTitle}>УВЕДОМЛЕНИЯ</Text>
-        <SoftCard>
-          <View style={styles.row}>
-            <View style={styles.rowTextWrap}>
-              <Text style={styles.rowLabel}>Напоминать о сроках</Text>
-              <Text style={styles.rowHint}>Уведомление за день до срока платежа</Text>
-            </View>
-            <Switch
-              value={notificationsEnabled}
-              onValueChange={setNotificationsEnabled}
-              trackColor={{ false: Colors.background, true: Colors.tealSoft }}
-              thumbColor={notificationsEnabled ? Colors.teal : Colors.white}
-            />
-          </View>
-        </SoftCard>
-
-        <Text style={styles.sectionTitle}>ДАННЫЕ</Text>
-        <SoftCard onPress={handleExport} style={styles.row}>
+      <Text style={styles.sectionTitle}>УВЕДОМЛЕНИЯ</Text>
+      <SoftCard>
+        <View style={styles.row}>
           <View style={styles.rowTextWrap}>
-            <Text style={styles.rowLabel}>Экспортировать данные</Text>
-            <Text style={styles.rowHint}>Поделиться списком долгов в формате JSON</Text>
+            <Text style={styles.rowLabel}>Напоминать о сроках</Text>
+            <Text style={styles.rowHint}>Уведомление за день до срока платежа</Text>
           </View>
-          <Ionicons name="share-outline" size={20} color={Colors.textSecondary} />
-        </SoftCard>
+          <Switch
+            value={notificationsEnabled}
+            onValueChange={setNotificationsEnabled}
+            trackColor={{ false: Colors.background, true: Colors.tealSoft }}
+            thumbColor={notificationsEnabled ? Colors.teal : Colors.white}
+          />
+        </View>
+      </SoftCard>
 
-        <Text style={styles.sectionTitle}>О ПРИЛОЖЕНИИ</Text>
-        <SoftCard style={styles.aboutCard}>
-          <Text style={styles.aboutTitle}>Долги</Text>
-          <Text style={styles.aboutText}>
-            Версия {Constants.expoConfig?.version ?? '1.0.0'}
-          </Text>
-          <Text style={styles.aboutText}>Все данные хранятся только на вашем устройстве.</Text>
-        </SoftCard>
-      </ScrollView>
-    </SafeAreaView>
+      <Text style={styles.sectionTitle}>ДАННЫЕ</Text>
+      <SoftCard onPress={handleExport} style={styles.row}>
+        <View style={styles.rowTextWrap}>
+          <Text style={styles.rowLabel}>Экспортировать данные</Text>
+          <Text style={styles.rowHint}>Поделиться списком долгов в формате JSON</Text>
+        </View>
+        <Ionicons name="share-outline" size={20} color={Colors.textSecondary} />
+      </SoftCard>
+
+      <Text style={styles.sectionTitle}>О ПРИЛОЖЕНИИ</Text>
+      <SoftCard style={styles.aboutCard}>
+        <Text style={styles.aboutTitle}>Долги</Text>
+        <Text style={styles.aboutText}>Версия {Constants.expoConfig?.version ?? '1.0.0'}</Text>
+        <Text style={styles.aboutText}>Все данные хранятся только на вашем устройстве.</Text>
+      </SoftCard>
+    </TabScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
   content: {
     paddingHorizontal: Spacing.lg,
     paddingTop: Spacing.sm,

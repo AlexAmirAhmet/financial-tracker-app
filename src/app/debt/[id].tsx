@@ -62,7 +62,7 @@ export default function DebtDetailsScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={['top']}>
+    <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
       <View style={styles.header}>
         <Pressable onPress={() => router.back()} style={styles.headerButton} hitSlop={12}>
           <Ionicons name="chevron-back" size={24} color={Colors.text} />

@@ -1,12 +1,11 @@
 import { useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { DebtListItem } from '@/components/DebtListItem';
 import { SegmentedControl } from '@/components/SegmentedControl';
 import { SoftCard } from '@/components/SoftCard';
+import { TabScreen } from '@/components/TabScreen';
 import { Colors, Fonts, Spacing } from '@/constants/theme';
-import { useTabBarInset } from '@/hooks/useTabBarInset';
 import { totalRemaining, useCurrency, useDebtStore } from '@/store/useDebtStore';
 import type { DebtType } from '@/types/debt';
 import { formatCurrency } from '@/utils/format';
@@ -28,56 +27,51 @@ export default function DebtsScreen() {
   );
 
   const total = totalRemaining(debts, type);
-  const tabBarInset = useTabBarInset();
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={['top']}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Долги</Text>
-      </View>
+    <TabScreen
+      contentContainerStyle={styles.list}
+      header={
+        <View>
+          <View style={styles.header}>
+            <Text style={styles.title}>Долги</Text>
+          </View>
 
-      <View style={styles.controlWrap}>
-        <SegmentedControl
-          segments={[
-            { key: 'owedToMe', label: 'Мне должны', accent: Colors.teal },
-            { key: 'iOwe', label: 'Я должен', accent: Colors.coral },
-          ]}
-          selectedKey={type}
-          onChange={(key) => setType(key as DebtType)}
-        />
-      </View>
+          <View style={styles.controlWrap}>
+            <SegmentedControl
+              segments={[
+                { key: 'owedToMe', label: 'Мне должны', accent: Colors.teal },
+                { key: 'iOwe', label: 'Я должен', accent: Colors.coral },
+              ]}
+              selectedKey={type}
+              onChange={(key) => setType(key as DebtType)}
+            />
+          </View>
 
-      <View style={styles.totalRow}>
-        <Text style={styles.totalLabel}>Всего активных</Text>
-        <Text style={[styles.totalValue, { color: type === 'owedToMe' ? Colors.teal : Colors.coral }]}>
-          {formatCurrency(total, currency)}
-        </Text>
-      </View>
-
-      <ScrollView
-        contentContainerStyle={[styles.list, { paddingBottom: tabBarInset }]}
-        showsVerticalScrollIndicator={false}>
-        {filtered.length === 0 ? (
-          <SoftCard>
-            <Text style={styles.emptyText}>
-              {type === 'owedToMe' ? 'Никто вам пока не должен' : 'Вы никому не должны'}
+          <View style={styles.totalRow}>
+            <Text style={styles.totalLabel}>Всего активных</Text>
+            <Text style={[styles.totalValue, { color: type === 'owedToMe' ? Colors.teal : Colors.coral }]}>
+              {formatCurrency(total, currency)}
             </Text>
-          </SoftCard>
-        ) : (
-          filtered.map((debt) => (
-            <DebtListItem key={debt.id} debt={debt} showProgress={debt.payments.length > 0} />
-          ))
-        )}
-      </ScrollView>
-    </SafeAreaView>
+          </View>
+        </View>
+      }>
+      {filtered.length === 0 ? (
+        <SoftCard>
+          <Text style={styles.emptyText}>
+            {type === 'owedToMe' ? 'Никто вам пока не должен' : 'Вы никому не должны'}
+          </Text>
+        </SoftCard>
+      ) : (
+        filtered.map((debt) => (
+          <DebtListItem key={debt.id} debt={debt} showProgress={debt.payments.length > 0} />
+        ))
+      )}
+    </TabScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
   header: {
     paddingHorizontal: Spacing.lg,
     paddingTop: Spacing.sm,
