@@ -101,5 +101,17 @@ export const Fonts = {
   bodySemiBold: 'Inter_600SemiBold',
 } as const;
 
-export const BottomTabInset = Platform.select({ ios: 92, android: 88 }) ?? 88;
+/**
+ * Геометрия плавающей нижней панели (см. app/(tabs)/_layout.tsx) — используется
+ * хуком useTabBarInset, чтобы контент экранов не перекрывался панелью. Если
+ * поменяете отступы/размеры панели или кнопок таба, обновите и эти значения.
+ */
+export const TabBar = {
+  // TabButton: иконка(22) + gap(4) + подпись(11) + paddingVertical(8*2) = 53,
+  // плюс собственный paddingVertical у TabList (6*2) = 12.
+  contentHeight: 65,
+  // marginBottom панели относительно нижнего safe-area инсета.
+  bottomGap: 12,
+} as const;
+
 export const MaxContentWidth = 480;

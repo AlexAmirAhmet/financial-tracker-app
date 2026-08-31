@@ -7,7 +7,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { FormField } from '@/components/FormField';
 import { PersonAvatar } from '@/components/PersonAvatar';
 import { SoftCard } from '@/components/SoftCard';
-import { BottomTabInset, Colors, Fonts, Radii, Spacing } from '@/constants/theme';
+import { Colors, Fonts, Radii, Spacing } from '@/constants/theme';
+import { useTabBarInset } from '@/hooks/useTabBarInset';
 import { useDebtStore } from '@/store/useDebtStore';
 
 const CURRENCIES = ['₽', '$', '€', '₸'];
@@ -22,6 +23,7 @@ export default function SettingsScreen() {
   const debts = useDebtStore((s) => s.debts);
 
   const [nameDraft, setNameDraft] = useState(userName);
+  const tabBarInset = useTabBarInset();
 
   const handleExport = async () => {
     const payload = JSON.stringify({ exportedAt: new Date().toISOString(), debts }, null, 2);
@@ -35,7 +37,7 @@ export default function SettingsScreen() {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <ScrollView
-        contentContainerStyle={[styles.content, { paddingBottom: BottomTabInset }]}
+        contentContainerStyle={[styles.content, { paddingBottom: tabBarInset }]}
         showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>Настройки</Text>
 

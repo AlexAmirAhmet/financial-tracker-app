@@ -5,7 +5,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { TabButton } from '@/components/TabButton';
-import { Colors, Radii, Shadows } from '@/constants/theme';
+import { Colors, Radii, Shadows, TabBar as TabBarTheme } from '@/constants/theme';
 
 /**
  * Кастомная нижняя навигация в стиле soft UI: три обычных вкладки и
@@ -18,7 +18,12 @@ export default function TabsLayout() {
   return (
     <Tabs style={styles.tabsRoot}>
       <TabSlot />
-      <TabList style={[styles.tabList, Shadows.raisedMd, { marginBottom: insets.bottom + 12 }]}>
+      <TabList
+        style={[
+          styles.tabList,
+          Shadows.raisedMd,
+          { marginBottom: insets.bottom + TabBarTheme.bottomGap },
+        ]}>
         <TabTrigger name="index" href="/" asChild>
           <TabButton icon="home" label="Главная" />
         </TabTrigger>

@@ -77,7 +77,7 @@ export default function DebtDetailsScreen() {
 
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.circleWrap}>
-          <DomeCircle size={190} tint={isOwedToMe ? 'teal' : 'coral'}>
+          <DomeCircle screenWidthRatio={0.44} tint={isOwedToMe ? 'teal' : 'coral'}>
             <Text style={styles.circleLabel}>{closed ? 'ОПЛАЧЕНО' : 'ОСТАТОК'}</Text>
             <Text style={[styles.circleValue, { color: accent }]}>{formatCurrency(remaining, currency)}</Text>
             <Text style={styles.circleSub}>из {formatCurrency(debt.amount, currency)}</Text>
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   },
   circleWrap: {
     alignItems: 'center',
-    marginVertical: Spacing.lg,
+    marginVertical: Spacing.sm,
   },
   circleLabel: {
     fontFamily: Fonts.bodyMedium,

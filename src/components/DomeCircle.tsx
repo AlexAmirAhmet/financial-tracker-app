@@ -1,13 +1,23 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import type { ReactNode } from 'react';
-import { Pressable, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  View,
+  useWindowDimensions,
+  type StyleProp,
+  type ViewStyle,
+} from 'react-native';
 
 import { Colors, Shadows } from '@/constants/theme';
 
 type DomeTint = 'neutral' | 'teal' | 'coral';
 
 interface DomeCircleProps {
-  size: number;
+  /** Доля ширины экрана, которую займёт приподнятый внешний слой (ring-outer). */
+  screenWidthRatio?: number;
+  /** Верхний предел в пикселях — чтобы на планшетах/вебе купол не раздувался. */
+  maxSize?: number;
   children?: ReactNode;
   tint?: DomeTint;
   onPress?: () => void;
@@ -22,15 +32,30 @@ const TINT_GLOW: Record<DomeTint, string> = {
 
 /**
  * Купольная круглая поверхность в стиле неоморфизма: внешнее радиальное свечение
- * (имитируется тремя затухающими кольцами, т.к. RN не умеет radial-gradient нативно),
- * приподнятый внешний слой и вдавленный внутренний слой с диагональной бликовой
- * подсветкой сверху-слева.
+ * (имитируется двумя затухающими кольцами, т.к. RN не умеет radial-gradient
+ * нативно), приподнятый внешний слой и вдавленный внутренний слой с диагональной
+ * бликовой подсветкой сверху-слева.
+ *
+ * Размер считается от ширины экрана (useWindowDimensions), а не в фиксированных
+ * пикселях — иначе на реальных телефонах купол либо переполняет экран, либо
+ * выглядит непропорционально в зависимости от диагонали устройства. При
+ * screenWidthRatio = 0.5 (по умолчанию) внешний слой ≈ 50% ширины экрана,
+ * свечение вокруг него ≈ 57–63%, внутренний круг с текстом ≈ 40%.
  */
-export function DomeCircle({ size, children, tint = 'neutral', onPress, style }: DomeCircleProps) {
-  const haloSize = size * 1.9;
-  const haloMidSize = size * 1.55;
-  const outerSize = size;
-  const innerSize = size * 0.8;
+export function DomeCircle({
+  screenWidthRatio = 0.5,
+  maxSize = 260,
+  children,
+  tint = 'neutral',
+  onPress,
+  style,
+}: DomeCircleProps) {
+  const { width } = useWindowDimensions();
+
+  const outerSize = Math.min(width * screenWidthRatio, maxSize);
+  const haloSize = outerSize * 1.26; // ≈ 63% ширины экрана при outerSize = 50%
+  const haloMidSize = outerSize * 1.14; // ≈ 57% ширины экрана при outerSize = 50%
+  const innerSize = outerSize * 0.8; // ≈ 40% ширины экрана при outerSize = 50%
 
   const glowColor = TINT_GLOW[tint];
 

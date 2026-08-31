@@ -5,7 +5,8 @@ import { DebtListItem } from '@/components/DebtListItem';
 import { DomeCircle } from '@/components/DomeCircle';
 import { PersonAvatar } from '@/components/PersonAvatar';
 import { SoftCard } from '@/components/SoftCard';
-import { BottomTabInset, Colors, Fonts, Spacing } from '@/constants/theme';
+import { Colors, Fonts, Spacing } from '@/constants/theme';
+import { useTabBarInset } from '@/hooks/useTabBarInset';
 import { balance, totalRemaining, upcomingDebts, useCurrency, useDebtStore } from '@/store/useDebtStore';
 import { formatCurrency } from '@/utils/format';
 
@@ -18,13 +19,14 @@ export default function HomeScreen() {
   const owedToMe = totalRemaining(debts, 'owedToMe');
   const iOwe = totalRemaining(debts, 'iOwe');
   const upcoming = upcomingDebts(debts, 6);
+  const tabBarInset = useTabBarInset();
 
   const isPositive = currentBalance >= 0;
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <ScrollView
-        contentContainerStyle={[styles.content, { paddingBottom: BottomTabInset }]}
+        contentContainerStyle={[styles.content, { paddingBottom: tabBarInset }]}
         showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <View>
@@ -35,10 +37,9 @@ export default function HomeScreen() {
         </View>
 
         <View style={styles.balanceWrap}>
-          <DomeCircle size={220} tint={isPositive ? 'teal' : 'coral'}>
+          <DomeCircle screenWidthRatio={0.5} tint={isPositive ? 'teal' : 'coral'}>
             <Text style={styles.balanceLabel}>БАЛАНС</Text>
             <Text style={[styles.balanceValue, { color: isPositive ? Colors.teal : Colors.coral }]}>
-              {isPositive ? '' : '-'}
               {formatCurrency(currentBalance, currency)}
             </Text>
             <Text style={styles.balanceHint}>{isPositive ? 'вам должны больше' : 'вы в минусе'}</Text>
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
   },
   balanceWrap: {
     alignItems: 'center',
-    marginVertical: Spacing.lg,
+    marginVertical: Spacing.sm,
   },
   balanceLabel: {
     fontFamily: Fonts.bodyMedium,

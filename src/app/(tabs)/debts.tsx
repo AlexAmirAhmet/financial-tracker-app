@@ -5,7 +5,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { DebtListItem } from '@/components/DebtListItem';
 import { SegmentedControl } from '@/components/SegmentedControl';
 import { SoftCard } from '@/components/SoftCard';
-import { BottomTabInset, Colors, Fonts, Spacing } from '@/constants/theme';
+import { Colors, Fonts, Spacing } from '@/constants/theme';
+import { useTabBarInset } from '@/hooks/useTabBarInset';
 import { totalRemaining, useCurrency, useDebtStore } from '@/store/useDebtStore';
 import type { DebtType } from '@/types/debt';
 import { formatCurrency } from '@/utils/format';
@@ -27,6 +28,7 @@ export default function DebtsScreen() {
   );
 
   const total = totalRemaining(debts, type);
+  const tabBarInset = useTabBarInset();
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
@@ -53,7 +55,7 @@ export default function DebtsScreen() {
       </View>
 
       <ScrollView
-        contentContainerStyle={[styles.list, { paddingBottom: BottomTabInset }]}
+        contentContainerStyle={[styles.list, { paddingBottom: tabBarInset }]}
         showsVerticalScrollIndicator={false}>
         {filtered.length === 0 ? (
           <SoftCard>
