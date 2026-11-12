@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -11,8 +12,8 @@ android {
         applicationId = "com.vela.player"
         minSdk = 26
         targetSdk = 37
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 2
+        versionName = "0.2.0"
 
         // libVLC тяжёлый: собираем только под 64-битные ARM-телефоны (почти все современные).
         ndk {
@@ -54,6 +55,8 @@ android {
 
     packaging {
         resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        // Сжимать нативные библиотеки (libVLC) внутри APK: файл получается примерно вдвое меньше.
+        jniLibs.useLegacyPackaging = true
     }
 }
 
@@ -64,6 +67,16 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.datastore.preferences)
+
+    // Движок воспроизведения: все кодеки, дорожки, субтитры, сетевые потоки.
+    implementation(libs.libvlc)
+    // База данных: позиции просмотра (позже — плейлисты, история).
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+    // Превью кадров видео в медиатеке.
+    implementation(libs.coil.compose)
+    implementation(libs.coil.video)
 
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)

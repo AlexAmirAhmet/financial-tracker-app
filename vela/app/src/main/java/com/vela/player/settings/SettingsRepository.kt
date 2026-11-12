@@ -29,6 +29,8 @@ class SettingsRepository(context: Context) {
         val SUB_BG = booleanPreferencesKey("subtitle_background")
         val SUB_ENCODING = stringPreferencesKey("subtitle_encoding")
         val HIDDEN_FOLDERS = stringSetPreferencesKey("hidden_folders")
+        val SORT_FIELD = stringPreferencesKey("sort_field")
+        val SORT_DESC = booleanPreferencesKey("sort_descending")
     }
 
     val settings: Flow<AppSettings> = store.data.map { p ->
@@ -42,6 +44,8 @@ class SettingsRepository(context: Context) {
             subtitleBackground = p[Keys.SUB_BG] ?: d.subtitleBackground,
             subtitleEncoding = p[Keys.SUB_ENCODING] ?: d.subtitleEncoding,
             hiddenFolders = p[Keys.HIDDEN_FOLDERS] ?: d.hiddenFolders,
+            sortField = p[Keys.SORT_FIELD].toEnum(d.sortField),
+            sortDescending = p[Keys.SORT_DESC] ?: d.sortDescending,
         )
     }
 
@@ -53,6 +57,10 @@ class SettingsRepository(context: Context) {
     suspend fun setSubtitleBackground(value: Boolean) = store.edit { it[Keys.SUB_BG] = value }
     suspend fun setSubtitleEncoding(value: String) = store.edit { it[Keys.SUB_ENCODING] = value }
     suspend fun setHiddenFolders(value: Set<String>) = store.edit { it[Keys.HIDDEN_FOLDERS] = value }
+    suspend fun setSort(field: SortField, descending: Boolean) = store.edit {
+        it[Keys.SORT_FIELD] = field.name
+        it[Keys.SORT_DESC] = descending
+    }
 }
 
 private inline fun <reified T : Enum<T>> String?.toEnum(default: T): T =

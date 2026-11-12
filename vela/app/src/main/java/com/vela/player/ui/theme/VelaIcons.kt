@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 object VelaIcons {
     val Search = line("Search", circle(11f, 11f, 7f), "M16.2,16.2L20.5,20.5")
     val Plus = line("Plus", "M12,5V19", "M5,12H19")
+    val Close = line("Close", "M6.5,6.5L17.5,17.5", "M17.5,6.5L6.5,17.5")
     val ArrowRight = line("ArrowRight", "M5,12H19", "M13.5,6.5L19,12L13.5,17.5")
     val Back = line("Back", "M19,12H5", "M10.5,6.5L5,12L10.5,17.5")
     val ChevronRight = line("ChevronRight", "M9.5,6L15.5,12L9.5,18")
