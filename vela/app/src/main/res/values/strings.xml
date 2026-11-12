@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Vela</string>
+
+    <!-- Общие -->
+    <string name="action_back">Назад</string>
+    <string name="action_search">Поиск</string>
+    <string name="action_add">Добавить</string>
+    <string name="action_settings">Настройки</string>
+    <string name="action_play">Воспроизвести</string>
+    <string name="action_pause">Пауза</string>
+    <string name="action_previous">Предыдущий</string>
+    <string name="action_next">Следующий</string>
+    <string name="action_shuffle">Перемешать</string>
+    <string name="action_repeat">Повтор</string>
+    <string name="action_open">Открыть</string>
+    <string name="coming_soon">Появится на этапе %1$d</string>
+
+    <!-- Медиатека -->
+    <string name="library_hello">привет</string>
+    <string name="library_date_open">Открыть сегодняшний день</string>
+    <string name="chip_all">Все</string>
+    <string name="chip_video">Видео</string>
+    <string name="chip_audio">Аудио</string>
+    <string name="chip_folders">Папки</string>
+    <string name="library_continue">Продолжить просмотр</string>
+    <string name="library_continue_empty">Здесь появится видео, которое вы не досмотрели</string>
+    <string name="library_folders">Папки</string>
+    <string name="library_files">Файлы</string>
+    <string name="library_empty">Медиатека пока пустая. Доступ к файлам настроим на этапе 2.</string>
+    <string name="library_open_stream">Поток</string>
+    <string name="library_open_audio">Аудио</string>
+    <string name="library_open_video">Видео</string>
+
+    <!-- Видеоплеер -->
+    <string name="video_title">Видеоплеер</string>
+    <string name="video_placeholder">Здесь будет видео. Плеер на libVLC — этап 3.</string>
+
+    <!-- Аудиоплеер -->
+    <string name="audio_now_playing">сейчас играет</string>
+    <string name="audio_nothing">Ничего не играет</string>
+    <string name="audio_hint">Фоновое воспроизведение и очередь — этап 6</string>
+
+    <!-- Поток -->
+    <string name="stream_title">поток</string>
+    <string name="stream_hint">Ссылка: http, https, m3u8 или rtsp</string>
+    <string name="stream_history">История ссылок</string>
+    <string name="stream_history_empty">Пока пусто</string>
+
+    <!-- Настройки -->
+    <string name="settings_title">настройки</string>
+    <string name="settings_theme">Тема</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Тёмная</string>
+    <string name="theme_system">Как в системе</string>
+    <string name="settings_decoder">Декодер по умолчанию</string>
+    <string name="decoder_hw">HW</string>
+    <string name="decoder_hw_plus">HW+</string>
+    <string name="decoder_sw">SW</string>
+    <string name="settings_auto_next">Автопереход к следующему файлу</string>
+    <string name="settings_auto_next_hint">Когда видео закончится, включить следующее из папки</string>
+    <string name="settings_more_later">Вид и кодировка субтитров, скрытые папки и полный доступ к файлам появятся на следующих этапах.</string>
+</resources>

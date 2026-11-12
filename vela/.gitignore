@@ -1,0 +1,15 @@
+# Gradle / Android Studio
+.gradle/
+.kotlin/
+build/
+/app/build/
+local.properties
+.idea/
+*.iml
+captures/
+.externalNativeBuild/
+.cxx/
+# Ключ подписи и пароли (этап 8) — НЕ коммитить, хранить резервную копию отдельно
+keystore.properties
+*.jks
+*.keystore

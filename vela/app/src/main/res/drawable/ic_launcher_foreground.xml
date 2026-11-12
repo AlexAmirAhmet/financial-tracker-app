@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- Тонкое кольцо -->
+    <path android:pathData="M54,30a24,24 0,1 1,0 48a24,24 0,1 1,0 -48z"
+        android:strokeColor="#1E1E24" android:strokeWidth="1.5" android:fillColor="#00000000" />
+    <!-- Тёмный круг Play -->
+    <path android:pathData="M54,36a18,18 0,1 1,0 36a18,18 0,1 1,0 -36z" android:fillColor="#1E1E24" />
+    <path android:pathData="M49.5,46.5L61,54L49.5,61.5Z" android:fillColor="#FFFFFF"
+        android:strokeColor="#FFFFFF" android:strokeWidth="1.5" android:strokeLineJoin="round" />
+</vector>
